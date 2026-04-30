@@ -1,0 +1,6 @@
+{
+  "name": "HealthSync",
+  "description": "A comprehensive Gym Trainer Dashboard featuring real-time health monitoring (HR & SpO2), automated emergency alerts, member registration, and attendance tracking.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
