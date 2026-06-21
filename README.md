@@ -15,6 +15,18 @@ View your app in AI Studio: https://ai.studio/apps/5a0d704f-755d-4ef9-b727-7ab8e
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+2. Configure your environment in `.env`:
+   - `GEMINI_API_KEY` for Gemini API calls
+   - `EMAIL_USERNAME` and `EMAIL_PASSWORD` for Gmail SMTP delivery
+   - `EMAIL_FROM` with your sender email address
+   - `EMAIL_FROM_NAME` for the sender display name
+   - `TWILIO_ACCOUNT_SID` for your Twilio account SID
+   - `TWILIO_AUTH_TOKEN` for your Twilio Auth Token
+   - `TWILIO_PHONE_NUMBER` for your Twilio Phone Number
 3. Run the app:
    `npm run dev`
+
+## Email
+
+Fees reminders and emergency emails are sent through Gmail using `EMAIL_USERNAME` and `EMAIL_PASSWORD`.
+SMS alerts are sent via Twilio using `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_PHONE_NUMBER`.

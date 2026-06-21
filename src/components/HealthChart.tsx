@@ -7,20 +7,20 @@ interface HealthChartProps {
 
 const HealthChart: React.FC<HealthChartProps> = ({ data }) => {
   return (
-    <div className="h-[300px] w-full bg-white rounded-2xl p-4 border border-slate-100">
-      <h3 className="text-sm font-semibold text-slate-800 mb-4 uppercase tracking-wider">Health Vitals History</h3>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="h-[300px] w-full bg-white dark:bg-slate-800/50 rounded-2xl p-4 border border-slate-100 dark:border-slate-700">
+      <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-4 uppercase tracking-wider">Health Vitals History</h3>
+      <ResponsiveContainer width="100%" height="100%" minWidth={0}>
         <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
           <XAxis 
             dataKey="time" 
-            tick={{ fontSize: 10, fill: '#94a3b8' }} 
+            tick={{ fontSize: 10, fill: '#64748b' }} 
             axisLine={false} 
             tickLine={false}
           />
           <YAxis 
             domain={[40, 150]} 
-            tick={{ fontSize: 10, fill: '#94a3b8' }} 
+            tick={{ fontSize: 10, fill: '#64748b' }} 
             axisLine={false} 
             tickLine={false}
           />
@@ -48,11 +48,11 @@ const HealthChart: React.FC<HealthChartProps> = ({ data }) => {
       <div className="flex justify-center gap-6 mt-2">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-rose-600"></div>
-          <span className="text-[10px] font-bold text-slate-500 uppercase">Heart Rate (BPM)</span>
+          <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Heart Rate (BPM)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-blue-600"></div>
-          <span className="text-[10px] font-bold text-slate-500 uppercase">SpO2 (%)</span>
+          <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">SpO2 (%)</span>
         </div>
       </div>
     </div>
