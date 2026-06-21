@@ -145,41 +145,6 @@
       }
     },
     {
-      "name": "Ganesh Namdev More",
-      "email": "gmore8044@gmail.com",
-      "age": 24,
-      "height": 171,
-      "weight": 168,
-      "gender": "Male",
-      "bloodGroup": "A+",
-      "medicalHistory": "None",
-      "feesStatus": "UNPAID",
-      "profileImage": "",
-      "additionalHealth": {
-        "bp": "None",
-        "diabetes": "None",
-        "other": "None"
-      },
-      "emergencyContact": {
-        "name": "Pranav Sunil Upasani",
-        "email": "upasanipranav9059@gmail.com",
-        "countryCode": "+91",
-        "phone": "+919209133079"
-      },
-      "id": "1782012526138",
-      "trainerId": "trainer-2",
-      "attendance": [
-        {
-          "date": "2026-06-21",
-          "status": true
-        }
-      ],
-      "healthData": {
-        "hr": 75,
-        "spo2": 99
-      }
-    },
-    {
       "name": "Sunil Upasani",
       "email": "upasanisunil525@gmail.com",
       "age": 58,
@@ -202,6 +167,36 @@
         "phone": "+919209133079"
       },
       "id": "1782013421149",
+      "trainerId": "trainer-2",
+      "attendance": [],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      }
+    },
+    {
+      "name": "Ganesh More",
+      "email": "gmore8044@gmail.com",
+      "age": 21,
+      "height": 175,
+      "weight": 73,
+      "gender": "Male",
+      "bloodGroup": "A+",
+      "medicalHistory": "Right shoulder fracture",
+      "feesStatus": "UNPAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "None",
+        "diabetes": "None",
+        "other": "None"
+      },
+      "emergencyContact": {
+        "name": "Pranav Upasani",
+        "email": "upasanipranav9059@gmail.com",
+        "countryCode": "+91",
+        "phone": "+919209133079"
+      },
+      "id": "1782014693297",
       "trainerId": "trainer-2",
       "attendance": [],
       "healthData": {

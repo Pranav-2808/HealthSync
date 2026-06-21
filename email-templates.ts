@@ -171,6 +171,8 @@ export const trainerWelcomeEmail = (trainerName: string, trainerEmail: string) =
 
 // =====================================================
 // 2. MEMBER WELCOME EMAIL
+// Plain text only — guarantees inbox delivery via Gmail SMTP.
+// HTML emails from personal Gmail accounts get routed to Promotions.
 // =====================================================
 export const memberWelcomeEmail = (member: {
   name: string;
@@ -180,135 +182,38 @@ export const memberWelcomeEmail = (member: {
   bloodGroup?: string;
   emergencyContact?: { name?: string; phone?: string; email?: string };
 }) => {
-  const html = baseLayout(`
-    <!-- Hero -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="background:${BRAND_GRADIENT};padding:48px 32px;text-align:center;">
-          <p style="margin:0 0 8px;font-size:48px;">🏋️</p>
-          <h1 style="margin:0 0 8px;font-size:28px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">Welcome to HealthSync, ${member.name}!</h1>
-          <p style="margin:0 auto;font-size:15px;color:rgba(255,255,255,0.85);max-width:420px;">You've been successfully registered. Your health journey starts now — your trainer is ready to monitor and support you.</p>
-        </td>
-      </tr>
-    </table>
+  const text = `Hello ${member.name},
 
-    <!-- Body -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="padding:32px;">
-          <p style="margin:0 0 20px;font-size:15px;color:${TEXT_SECONDARY};line-height:1.7;">
-            Hello <strong style="color:${TEXT_PRIMARY};">${member.name}</strong>, your account at 
-            <strong style="color:${TEXT_PRIMARY};">HealthSync Gym</strong> has been successfully created. 
-            Your trainer will monitor your health vitals in real time during gym sessions.
-          </p>
-
-          <!-- Member Details -->
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-              <td>
-                <p style="margin:0 0 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:${TEXT_SECONDARY};">Your Profile</p>
-              </td>
-            </tr>
-            <tr>
-              ${member.age ? statBox("Age", `${member.age} yrs`) : ""}
-              ${member.gender ? statBox("Gender", member.gender) : ""}
-              ${member.bloodGroup ? statBox("Blood Group", member.bloodGroup, "#fef2f2", BRAND_COLOR) : ""}
-            </tr>
-          </table>
-
-          <!-- Emergency Contact -->
-          ${member.emergencyContact?.name ? `
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
-            <tr>
-              <td style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:16px;padding:20px;">
-                <p style="margin:0 0 8px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#166534;">🛡️ Emergency Contact Registered</p>
-                <p style="margin:0;font-size:14px;color:#15803d;line-height:1.7;">
-                  <strong>${member.emergencyContact.name}</strong> has been listed as your emergency contact.
-                  They will be notified immediately if your health vitals reach critical levels.
-                </p>
-              </td>
-            </tr>
-          </table>
-          ` : ""}
-
-          <!-- What to Expect -->
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
-            <tr>
-              <td>
-                <p style="margin:0 0 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:${TEXT_SECONDARY};">What to Expect</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:12px 0;">
-                <table role="presentation" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td style="width:44px;vertical-align:top;">
-                      <div style="width:36px;height:36px;background:#fef2f2;border-radius:10px;text-align:center;line-height:36px;font-size:18px;">❤️</div>
-                    </td>
-                    <td style="padding-left:12px;">
-                      <p style="margin:0;font-size:14px;font-weight:700;color:${TEXT_PRIMARY};">Real-Time Vital Monitoring</p>
-                      <p style="margin:4px 0 0;font-size:13px;color:${TEXT_SECONDARY};">Your heart rate and blood oxygen (SpO2) are monitored live during sessions.</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:12px 0;">
-                <table role="presentation" cellpadding="0" cellspacing="0">
-                  <tr>
-                    <td style="width:44px;vertical-align:top;">
-                      <div style="width:36px;height:36px;background:#fef2f2;border-radius:10px;text-align:center;line-height:36px;font-size:18px;">🚨</div>
-                    </td>
-                    <td style="padding-left:12px;">
-                      <p style="margin:0;font-size:14px;font-weight:700;color:${TEXT_PRIMARY};">Automatic Emergency Alerts</p>
-                      <p style="margin:4px 0 0;font-size:13px;color:${TEXT_SECONDARY};">If vitals go critical, your emergency contact is alerted instantly via email, SMS & call.</p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
-
-          <!-- Account Info -->
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
-            <tr>
-              <td style="background:#f8fafc;border-radius:16px;padding:20px;">
-                <p style="margin:0 0 4px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:${TEXT_SECONDARY};">Your Registered Email</p>
-                <p style="margin:0;font-size:14px;font-weight:600;color:${TEXT_PRIMARY};">${member.email}</p>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  `);
-
-  const plainText = `Hello ${member.name},
-
-Your account at HealthSync has been successfully created.
+Your gym membership at HealthSync has been confirmed.
 
 Your Profile:
-- Age: ${member.age || "N/A"}
-- Gender: ${member.gender || "N/A"}
-- Blood Group: ${member.bloodGroup || "N/A"}
+  Name        : ${member.name}
+  Age         : ${member.age || 'N/A'}
+  Gender      : ${member.gender || 'N/A'}
+  Blood Group : ${member.bloodGroup || 'N/A'}
+  Email       : ${member.email}
 
-Emergency Contact: ${member.emergencyContact?.name || "N/A"} (${member.emergencyContact?.phone || "N/A"})
+Emergency Contact: ${member.emergencyContact?.name || 'N/A'}
+  Phone : ${member.emergencyContact?.phone || 'N/A'}
+  Email : ${member.emergencyContact?.email || 'N/A'}
 
-Your trainer will monitor your health vitals in real time during sessions. If your vitals reach critical levels, your emergency contact will be alerted immediately.
+Your trainer will monitor your heart rate and blood oxygen (SpO2) in real time during sessions. If your vitals become critical, your emergency contact will be notified immediately via email, SMS, and voice call.
 
-Best regards,
-HealthSync Team`;
+No action is required from you.
+
+Regards,
+HealthSync Gym Management`;
 
   return {
-    subject: "🏋️ Welcome to HealthSync — Your Membership is Active!",
-    text: plainText,
-    html,
+    subject: `HealthSync: Membership Confirmed for ${member.name}`,
+    text,
+    html: undefined, // Plain text only — avoids Gmail Promotions filter
   };
 };
 
 // =====================================================
 // 3. EMERGENCY CONTACT WELCOME EMAIL
+// Plain text only — guarantees inbox delivery via Gmail SMTP.
 // =====================================================
 export const emergencyContactWelcomeEmail = (
   contactName: string,
@@ -321,104 +226,35 @@ export const emergencyContactWelcomeEmail = (
     medicalHistory?: string;
   }
 ) => {
-  const html = baseLayout(`
-    <!-- Hero -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);padding:48px 32px;text-align:center;">
-          <p style="margin:0 0 8px;font-size:48px;">🛡️</p>
-          <h1 style="margin:0 0 8px;font-size:26px;font-weight:800;color:#ffffff;letter-spacing:-0.5px;">Hello ${contactName},</h1>
-          <p style="margin:0;font-size:15px;color:rgba(255,255,255,0.75);">You've been listed as an emergency contact on HealthSync</p>
-        </td>
-      </tr>
-    </table>
+  const text = `Hello ${contactName},
 
-    <!-- Body -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-      <tr>
-        <td style="padding:32px;">
-          <p style="margin:0 0 20px;font-size:15px;color:${TEXT_SECONDARY};line-height:1.7;">
-            <strong style="color:${TEXT_PRIMARY};">${member.name}</strong> has registered at 
-            <strong style="color:${TEXT_PRIMARY};">HealthSync Gym</strong> and listed you as their 
-            <strong style="color:${BRAND_COLOR};">emergency contact</strong>.
-          </p>
+This is an important notification from HealthSync Gym Management.
 
-          <!-- What This Means -->
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-              <td style="background:#fef2f2;border:1px solid #fecdd3;border-radius:16px;padding:24px;">
-                <h3 style="margin:0 0 12px;font-size:15px;font-weight:700;color:#9f1239;">⚡ What does this mean?</h3>
-                <p style="margin:0;font-size:13px;color:#881337;line-height:1.7;">
-                  HealthSync monitors gym members' health vitals (heart rate and blood oxygen) in real time. 
-                  If <strong>${member.name}</strong>'s vitals reach critical levels during a gym session, 
-                  you will be <strong>immediately notified</strong> via:
-                </p>
-                <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:16px;">
-                  <tr>
-                    <td style="padding:6px 0;font-size:13px;color:#9f1239;">
-                      <span style="display:inline-block;width:24px;text-align:center;">📧</span> <strong>Email</strong> — Detailed alert to this address
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding:6px 0;font-size:13px;color:#9f1239;">
-                      <span style="display:inline-block;width:24px;text-align:center;">📱</span> <strong>SMS</strong> — Urgent text message to your phone
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style="padding:6px 0;font-size:13px;color:#9f1239;">
-                      <span style="display:inline-block;width:24px;text-align:center;">📞</span> <strong>Voice Call</strong> — Automated emergency voice call
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
+${member.name} has registered at our gym and has listed you as their emergency contact. This means you will be notified immediately if their health vitals become critical during a gym session.
 
-          ${divider.replace('<tr><td style="padding:24px 32px 0;">','<tr><td style="padding:24px 0 0;">')}
+Member Details:
+  Name         : ${member.name}
+  Age          : ${member.age || 'N/A'}
+  Gender       : ${member.gender || 'N/A'}
+  Blood Group  : ${member.bloodGroup || 'N/A'}
+  Med. History : ${member.medicalHistory || 'None'}
 
-          <!-- Member Details -->
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
-            <tr>
-              <td>
-                <p style="margin:0 0 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:${TEXT_SECONDARY};">Member Details</p>
-              </td>
-            </tr>
-            <tr>
-              ${statBox("Name", member.name)}
-              ${member.age ? statBox("Age", `${member.age} yrs`) : ""}
-              ${member.bloodGroup ? statBox("Blood Group", member.bloodGroup, "#fef2f2", BRAND_COLOR) : ""}
-            </tr>
-            ${member.medicalHistory ? `
-            <tr>
-              <td colspan="3" style="padding:8px 4px 0;">
-                <div style="background:#f1f5f9;border-radius:14px;padding:16px;">
-                  <p style="margin:0 0 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:${TEXT_SECONDARY};">Medical History</p>
-                  <p style="margin:0;font-size:14px;color:${TEXT_PRIMARY};">${member.medicalHistory}</p>
-                </div>
-              </td>
-            </tr>
-            ` : ""}
-          </table>
+How you will be notified if an emergency occurs:
+  - Email: A detailed health alert will be sent to this address.
+  - SMS: An urgent text message will be sent to your phone.
+  - Voice Call: An automated emergency call will be placed.
 
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:24px;">
-            <tr>
-              <td style="padding:16px;background:#eff6ff;border-radius:14px;border:1px solid #bfdbfe;">
-                <p style="margin:0;font-size:13px;color:#1e40af;line-height:1.6;">
-                  <strong>No action is needed from you right now.</strong><br/>
-                  You'll only be contacted if an emergency situation arises. Thank you for being there for ${member.name}! 🙏
-                </p>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  `);
+No action is required from you right now. You will only be contacted if a health emergency arises.
+
+Thank you for being an emergency contact for ${member.name}.
+
+Regards,
+HealthSync Gym Management`;
 
   return {
-    subject: `🛡️ You're Listed as Emergency Contact for ${member.name} — HealthSync`,
-    text: `Hello ${contactName},\n\n${member.name} has registered at HealthSync Gym and listed you as their emergency contact.\n\nWhat this means: If ${member.name}'s health vitals (heart rate, blood oxygen) reach critical levels during a gym session, you will be immediately notified via email, SMS, and voice call.\n\nMember Details:\n- Name: ${member.name}\n- Age: ${member.age || "N/A"}\n- Blood Group: ${member.bloodGroup || "N/A"}\n- Medical History: ${member.medicalHistory || "None"}\n\nNo action is needed from you right now. You'll only be contacted if an emergency arises.\n\nThank you,\nHealthSync Team`,
-    html,
+    subject: `HealthSync: You are listed as emergency contact for ${member.name}`,
+    text,
+    html: undefined, // Plain text only — avoids Gmail Promotions filter
   };
 };
 

@@ -31,9 +31,11 @@ type AuthResponse = {
   user: User;
 };
 
+// Use sessionStorage so the app always starts at the login page in a new browser session.
+// The session persists while the tab is open but clears when the browser/tab is closed.
 const getStoredAuthState = (): AuthState => {
   try {
-    const stored = window.localStorage.getItem(AUTH_STORAGE_KEY);
+    const stored = window.sessionStorage.getItem(AUTH_STORAGE_KEY);
     if (!stored) return { ...emptyAuthState, ready: true };
 
     const parsed = JSON.parse(stored) as AuthResponse;
@@ -41,18 +43,18 @@ const getStoredAuthState = (): AuthState => {
     return { user: parsed.user, token: parsed.token, ready: true };
   } catch (error) {
     console.error("Could not restore saved login:", error);
-    window.localStorage.removeItem(AUTH_STORAGE_KEY);
+    window.sessionStorage.removeItem(AUTH_STORAGE_KEY);
     return { ...emptyAuthState, ready: true };
   }
 };
 
 const saveAuthState = (authResponse: AuthResponse) => {
-  window.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authResponse));
+  window.sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authResponse));
 };
 
 const getStoredToken = () => {
   try {
-    const stored = window.localStorage.getItem(AUTH_STORAGE_KEY);
+    const stored = window.sessionStorage.getItem(AUTH_STORAGE_KEY);
     if (!stored) return null;
     return (JSON.parse(stored) as AuthResponse).token || null;
   } catch {
@@ -158,7 +160,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const logout = useCallback(async () => {
-    window.localStorage.removeItem(AUTH_STORAGE_KEY);
+    window.sessionStorage.removeItem(AUTH_STORAGE_KEY);
     setAuthStateValue({ user: null, token: null, ready: true });
     setMembers([]);
     setDismissedIds(new Set());
