@@ -11,37 +11,15 @@
       "name": "Pranav Upasani",
       "email": "upasanipranav9059@gmail.com",
       "password": "$2b$10$iAFfKn278HBOHF7jRVCuc.HG4bcvUyP5E2C//Oa/.npotFMoVD7ha"
+    },
+    {
+      "id": "1782185214935",
+      "name": "Test Trainer",
+      "email": "test@test.com",
+      "password": "$2b$10$dmHFa7NBvL4cb/CnqmCxPuuHQ2X9ioo1fkjw3c9098tyrt7tObSja"
     }
   ],
   "members": [
-    {
-      "id": "1",
-      "name": "John Doe",
-      "email": "john@example.com",
-      "age": 28,
-      "height": 180,
-      "weight": 75,
-      "gender": "Male",
-      "bloodGroup": "O+",
-      "medicalHistory": "None",
-      "feesStatus": "PAID",
-      "trainerId": "trainer-2",
-      "attendance": [
-        {
-          "date": "2026-06-21",
-          "status": true
-        }
-      ],
-      "emergencyContact": {
-        "name": "Jane Doe",
-        "email": "jane@example.com",
-        "phone": "+911234567890"
-      },
-      "healthData": {
-        "hr": 72,
-        "spo2": 98
-      }
-    },
     {
       "id": "2",
       "name": "Sarah Smith",
@@ -54,7 +32,20 @@
       "medicalHistory": "BP issues",
       "feesStatus": "UNPAID",
       "trainerId": "trainer-2",
-      "attendance": [],
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
       "emergencyContact": {
         "name": "Bob Smith",
         "email": "bob@example.com",
@@ -80,6 +71,18 @@
       "attendance": [
         {
           "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-23",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
           "status": true
         }
       ],
@@ -109,6 +112,18 @@
         {
           "date": "2026-06-21",
           "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-23",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
         }
       ],
       "emergencyContact": {
@@ -133,7 +148,16 @@
       "medicalHistory": "Diabetes type 2",
       "feesStatus": "UNPAID",
       "trainerId": "trainer-2",
-      "attendance": [],
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
       "emergencyContact": {
         "name": "Kavita Verma",
         "email": "kavita.verma@example.com",
@@ -145,36 +169,6 @@
       }
     },
     {
-      "name": "Sunil Upasani",
-      "email": "upasanisunil525@gmail.com",
-      "age": 58,
-      "height": 175,
-      "weight": 81,
-      "gender": "Male",
-      "bloodGroup": "B+",
-      "medicalHistory": "None",
-      "feesStatus": "UNPAID",
-      "profileImage": "",
-      "additionalHealth": {
-        "bp": "High",
-        "diabetes": "Low",
-        "other": "None"
-      },
-      "emergencyContact": {
-        "name": "Pranav Upasani",
-        "email": "upasanipranav9059@gmail.com",
-        "countryCode": "+91",
-        "phone": "+919209133079"
-      },
-      "id": "1782013421149",
-      "trainerId": "trainer-2",
-      "attendance": [],
-      "healthData": {
-        "hr": 75,
-        "spo2": 99
-      }
-    },
-    {
       "name": "Ganesh More",
       "email": "gmore8044@gmail.com",
       "age": 21,
@@ -183,7 +177,7 @@
       "gender": "Male",
       "bloodGroup": "A+",
       "medicalHistory": "Right shoulder fracture",
-      "feesStatus": "UNPAID",
+      "feesStatus": "PAID",
       "profileImage": "",
       "additionalHealth": {
         "bp": "None",
@@ -198,11 +192,412 @@
       },
       "id": "1782014693297",
       "trainerId": "trainer-2",
-      "attendance": [],
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-23",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      },
+      "feePaymentDate": "2026-06-21",
+      "feeHistory": [
+        {
+          "month": "2026-06",
+          "status": "PAID",
+          "paidDate": "2026-06-21"
+        }
+      ]
+    },
+    {
+      "name": "Sanika Chaudhari",
+      "email": "sanikachaudhari2021@gmail.com",
+      "age": 22,
+      "height": 171,
+      "weight": 58,
+      "gender": "Female",
+      "bloodGroup": "AB+",
+      "medicalHistory": "None",
+      "feesStatus": "UNPAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "Low",
+        "diabetes": "None",
+        "other": "None"
+      },
+      "emergencyContact": {
+        "name": "Pranav Upasani",
+        "email": "upasanipranav9059@gmail.com",
+        "countryCode": "+91",
+        "phone": "+919209133079"
+      },
+      "id": "1782016273488",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
       "healthData": {
         "hr": 75,
         "spo2": 99
       }
+    },
+    {
+      "name": "Uday Saindane",
+      "email": "udaysaindane3421@gmail.com",
+      "age": 32,
+      "height": 178,
+      "weight": 72,
+      "gender": "Male",
+      "bloodGroup": "O-",
+      "medicalHistory": "Fracture in Left Shoulder",
+      "feesStatus": "PAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "Low",
+        "diabetes": "Yes",
+        "other": "None"
+      },
+      "emergencyContact": {
+        "name": "Aditya Thorat",
+        "email": "thorataditya0123@gmail.com",
+        "countryCode": "+91",
+        "phone": "+915471259687"
+      },
+      "id": "1782016634354",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      },
+      "feePaymentDate": "2026-06-21",
+      "feeHistory": [
+        {
+          "month": "2026-06",
+          "status": "PAID",
+          "paidDate": "2026-06-21"
+        }
+      ]
+    },
+    {
+      "name": "Pranit Varude",
+      "email": "pranitvarude0504@gmail.com",
+      "age": 28,
+      "height": 175,
+      "weight": 12,
+      "gender": "Male",
+      "bloodGroup": "A+",
+      "medicalHistory": "None",
+      "feesStatus": "PAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "118/78",
+        "diabetes": "No",
+        "other": "Regular Gym User"
+      },
+      "emergencyContact": {
+        "name": "Ganesh More",
+        "email": "gmore8044@gmail.com",
+        "countryCode": "+91",
+        "phone": "+915471258932"
+      },
+      "id": "1782045031364",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-23",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      },
+      "feePaymentDate": "2026-06-21",
+      "feeHistory": [
+        {
+          "month": "2026-06",
+          "status": "PAID",
+          "paidDate": "2026-06-21"
+        }
+      ]
+    },
+    {
+      "name": "Prathamesh Shah",
+      "email": "prathmeshshah2004@gmail.com",
+      "age": 42,
+      "height": 170,
+      "weight": 85,
+      "gender": "Male",
+      "bloodGroup": "A-",
+      "medicalHistory": "Hypertension",
+      "feesStatus": "UNPAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "145/95",
+        "diabetes": "No",
+        "other": "Sedentary Lifestyle"
+      },
+      "emergencyContact": {
+        "name": "Aditya Thorat",
+        "email": "thorataditya0123@gmail.com",
+        "countryCode": "+91",
+        "phone": "+916954758212"
+      },
+      "id": "1782045283477",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-23",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      }
+    },
+    {
+      "name": "Om Bacchav",
+      "email": "harshalb205@gmail.com",
+      "age": 55,
+      "height": 168,
+      "weight": 78,
+      "gender": "Male",
+      "bloodGroup": "B+",
+      "medicalHistory": "Heart Disease",
+      "feesStatus": "UNPAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "150/90",
+        "diabetes": "Yes",
+        "other": "Ex-smoker"
+      },
+      "emergencyContact": {
+        "name": "Pranav Upasani",
+        "email": "upasanipranav9059@gmail.com",
+        "countryCode": "+91",
+        "phone": "+919209133079"
+      },
+      "id": "1782045409962",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-23",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      }
+    },
+    {
+      "name": "Samruddhi Wagh",
+      "email": "samruddhiwagh81@gmail.com",
+      "age": 26,
+      "height": 162,
+      "weight": 55,
+      "gender": "Female",
+      "bloodGroup": "B-",
+      "medicalHistory": "None",
+      "feesStatus": "PAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "110/70",
+        "diabetes": "No",
+        "other": "Yoga practioner"
+      },
+      "emergencyContact": {
+        "name": "Mayuri Jadhav",
+        "email": "jmayuri018@gmail.com",
+        "countryCode": "+91",
+        "phone": "+918247479165"
+      },
+      "id": "1782045582344",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-23",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      },
+      "feePaymentDate": "2026-06-21",
+      "feeHistory": [
+        {
+          "month": "2026-06",
+          "status": "PAID",
+          "paidDate": "2026-06-21"
+        }
+      ]
+    },
+    {
+      "name": "Mayuri Jadhav",
+      "email": "jmayuri018@gmail.com",
+      "age": 38,
+      "height": 160,
+      "weight": 68,
+      "gender": "Female",
+      "bloodGroup": "AB+",
+      "medicalHistory": "Asthma ",
+      "feesStatus": "PAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "122/80",
+        "diabetes": "No",
+        "other": "Mild respiratory issues"
+      },
+      "emergencyContact": {
+        "name": "Samruddhi Wagh",
+        "email": "samruddhiwagh81@gmail.com",
+        "countryCode": "+91",
+        "phone": "+917548695741"
+      },
+      "id": "1782045684147",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      },
+      "feePaymentDate": "2026-06-21",
+      "feeHistory": [
+        {
+          "month": "2026-06",
+          "status": "PAID",
+          "paidDate": "2026-06-21"
+        }
+      ]
+    },
+    {
+      "name": "Aastha Kothari",
+      "email": "aasthakothari27@gmail.com",
+      "age": 50,
+      "height": 158,
+      "weight": 74,
+      "gender": "Female",
+      "bloodGroup": "O+",
+      "medicalHistory": "Thyroid Disorder",
+      "feesStatus": "PAID",
+      "profileImage": "",
+      "additionalHealth": {
+        "bp": "135/85",
+        "diabetes": "Yes",
+        "other": "Regular medication"
+      },
+      "emergencyContact": {
+        "name": "Sanika Chaudhari",
+        "email": "sanikachaudhari2021@gmail.com",
+        "countryCode": "+91",
+        "phone": "+917030445470"
+      },
+      "id": "1782045852609",
+      "trainerId": "trainer-2",
+      "attendance": [
+        {
+          "date": "2026-06-21",
+          "status": true
+        },
+        {
+          "date": "2026-06-22",
+          "status": true
+        },
+        {
+          "date": "2026-06-28",
+          "status": true
+        }
+      ],
+      "healthData": {
+        "hr": 75,
+        "spo2": 99
+      },
+      "feePaymentDate": "2026-06-21",
+      "feeHistory": [
+        {
+          "month": "2026-06",
+          "status": "PAID",
+          "paidDate": "2026-06-21"
+        }
+      ]
     }
   ]
 }

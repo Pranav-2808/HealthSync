@@ -1,6 +1,18 @@
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { AuthState, Member, User } from "../types";
+import { voiceAlertService } from "../lib/voiceAlertService";
+
+interface EmergencyAlertStatus {
+  emailStatus: "sent" | "failed" | "skipped";
+  smsStatus: "sent" | "failed" | "skipped";
+  voiceCallStatus: "initiated" | "failed" | "skipped";
+  browserVoiceStatus: "spoken" | "failed" | "unsupported";
+  emailError?: string;
+  smsError?: string;
+  voiceCallError?: string;
+  browserVoiceError?: string;
+}
 
 interface AppContextType {
   authState: AuthState;
@@ -17,6 +29,7 @@ interface AppContextType {
   dismissedIds: Set<string>;
   dismissAlert: (memberId: string) => void;
   sendFeesReminder: (memberId: string, pendingFees: number, dueDate: string) => Promise<void>;
+  emergencyAlertStatuses: Record<string, EmergencyAlertStatus>;
   theme: "light" | "dark";
   toggleTheme: () => void;
 }
@@ -96,6 +109,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [emergencyAlertIds, setEmergencyAlertIds] = useState<Set<string>>(new Set());
   const [dismissedIds, setDismissedIds] = useState<Set<string>>(new Set());
   const [memberTicks, setMemberTicks] = useState<Record<string, number>>({});
+  const [emergencyAlertStatuses, setEmergencyAlertStatuses] = useState<Record<string, EmergencyAlertStatus>>({});
   
   const [theme, setTheme] = useState<"light" | "dark">(() => {
     if (typeof window !== "undefined") {
@@ -167,9 +181,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setEmergencyAlertIds(new Set());
     setActiveCriticalAlerts(new Map());
     setMemberTicks({});
+    setEmergencyAlertStatuses({});
   }, []);
 
   const dismissAlert = useCallback((memberId: string) => {
+    // Stop any active browser voice alert for this member
+    voiceAlertService.stopAlert(memberId);
+
     setDismissedIds(prev => new Set(prev).add(memberId));
     setEmergencyAlertIds(prev => {
       const next = new Set(prev);
@@ -179,6 +197,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setActiveCriticalAlerts(prev => {
       const next = new Map(prev);
       next.delete(memberId);
+      return next;
+    });
+    setEmergencyAlertStatuses(prev => {
+      const next = { ...prev };
+      delete next[memberId];
       return next;
     });
   }, []);
@@ -417,6 +440,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
               setActiveCriticalAlerts(prev => new Map(prev).set(member.id, true));
               setEmergencyAlertIds(prev => new Set(prev).add(member.id));
 
+              // 1. Trigger browser-based voice alert (FREE - no API keys needed)
+              //    This speaks the emergency message through the device speakers
+              let browserVoiceResult: "spoken" | "failed" | "unsupported" = "unsupported";
+              voiceAlertService.triggerEmergencyAlert(member.id, {
+                memberName: member.name,
+                hr,
+                spo2,
+                emergencyContactName: member.emergencyContact?.name,
+                emergencyContactPhone: member.emergencyContact?.phone,
+                bloodGroup: member.bloodGroup,
+                medicalHistory: member.medicalHistory,
+              }).then(spoken => {
+                browserVoiceResult = spoken ? "spoken" : (voiceAlertService.getIsSupported() ? "failed" : "unsupported");
+                // Update browser voice status when it completes
+                setEmergencyAlertStatuses(prev => {
+                  const existing = prev[member.id];
+                  if (!existing) return prev;
+                  return {
+                    ...prev,
+                    [member.id]: {
+                      ...existing,
+                      browserVoiceStatus: browserVoiceResult,
+                    },
+                  };
+                });
+              });
+
+              // 2. Send server-side alerts (Email + SMS + Twilio Voice)
               fetch("/api/emergency/alert", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -427,6 +478,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
                   if (!data.success) {
                     console.error(`Emergency alert failed for ${member.name}:`, data.error || data);
                   }
+                  // Store the alert statuses for this member
+                  setEmergencyAlertStatuses(prev => ({
+                    ...prev,
+                    [member.id]: {
+                      emailStatus: data.emailStatus || "skipped",
+                      smsStatus: data.smsStatus || "skipped",
+                      voiceCallStatus: data.voiceCallStatus || "skipped",
+                      browserVoiceStatus: prev[member.id]?.browserVoiceStatus || "unsupported",
+                      emailError: data.emailError,
+                      smsError: data.smsError,
+                      voiceCallError: data.voiceCallError,
+                    },
+                  }));
                 })
                 .catch(err => {
                   console.error(`Emergency alert network error for ${member.name}:`, err);
@@ -456,6 +520,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     emergencyAlertIds,
     dismissedIds,
     dismissAlert,
+    emergencyAlertStatuses,
     sendFeesReminder,
     theme,
     toggleTheme,

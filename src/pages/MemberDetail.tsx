@@ -5,7 +5,7 @@ import HealthChart from "../components/HealthChart";
 import {
   ArrowLeft, Trash2, Edit2, Phone, Mail, User,
   Dna, Ruler, Weight, History, Calendar, CreditCard,
-  AlertCircle, ShieldAlert, Sparkles
+  AlertCircle, ShieldAlert
 } from "lucide-react";
 
 type HealthHistoryPoint = {
@@ -20,9 +20,6 @@ const MemberDetail: React.FC = () => {
   const { members, deleteMember } = useApp();
   const member = members.find(m => m.id === id);
 
-  // For chart simulation
-  const [aiInsight, setAiInsight] = useState<string | null>(null);
-  const [loadingAi, setLoadingAi] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [history, setHistory] = useState<HealthHistoryPoint[]>([]);
 
@@ -39,43 +36,6 @@ const MemberDetail: React.FC = () => {
     }
   }, [member?.healthData]);
 
-  const getAIInsight = async () => {
-    setLoadingAi(true);
-    try {
-      const apiKey = (import.meta as any).env?.VITE_GEMINI_API_KEY || process.env.GEMINI_API_KEY;
-      if (!apiKey || apiKey === "your_gemini_api_key") {
-        alert("Please set a valid GEMINI_API_KEY in your .env file");
-        setLoadingAi(false);
-        return;
-      }
-
-      const prompt = `You are an AI assistant for a gym owner. Your goal is to provide actionable insights for the gym owner to better manage and support their members. Analyze the following member's data and provide:
-1. An overall status summary (e.g., "Healthy & Engaged", "At Risk - Health", "At Risk - Engagement", "Financial Concern").
-2. Key observations regarding their health vitals, attendance, and fees status.
-3. One specific, actionable recommendation for the gym owner to take (e.g., "Suggest a new workout plan", "Reach out about low attendance", "Follow up on overdue fees", "Schedule a health check-in").
-
-Member Data:
-Name: ${member?.name}, Age: ${member?.age}, Gender: ${member?.gender}, Weight: ${member?.weight}kg, Height: ${member?.height}cm, Blood Group: ${member?.bloodGroup}
-Medical History: ${member?.medicalHistory}
-Current Vitals -> Heart Rate: ${member?.healthData?.hr} bpm, SpO2: ${member?.healthData?.spo2}%
-Fees Status: ${member?.feesStatus}
-Attendance this month: ${member?.attendance.filter(a => a.status).length} days present.`;
-
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      });
-
-      const data = await res.json();
-      setAiInsight(data.candidates?.[0]?.content?.parts?.[0]?.text || "No insights available.");
-    } catch (error) {
-      console.error(error);
-      alert("Failed to generate AI insight.");
-    } finally {
-      setLoadingAi(false);
-    }
-  };
 
   if (!member) return <div className="text-center py-20">Member not found</div>;
 
@@ -183,13 +143,6 @@ Attendance this month: ${member?.attendance.filter(a => a.status).length} days p
             >
               <Edit2 size={18} /> Update Details
             </button>
-            <button
-              onClick={getAIInsight}
-              disabled={loadingAi}
-              className="w-full flex items-center justify-center gap-2 py-3 bg-indigo-600 text-white rounded-xl font-bold hover:bg-indigo-700 transition-all disabled:opacity-50"
-            >
-              <Sparkles size={18} /> {loadingAi ? "Generating..." : "Generate AI Insight"}
-            </button>
             <button 
               onClick={handleDelete}
               disabled={deleting}
@@ -211,14 +164,7 @@ Attendance this month: ${member?.attendance.filter(a => a.status).length} days p
             </p>
           </div>
 
-          {aiInsight && (
-            <div className="glass p-6 rounded-3xl border-indigo-100 dark:border-indigo-900/50 bg-indigo-50/50 dark:bg-indigo-900/20 shadow-inner">
-              <h3 className="font-bold text-indigo-900 dark:text-indigo-400 mb-2 flex items-center gap-2">
-                <Sparkles size={18} className="text-indigo-600 dark:text-indigo-400" /> AI Insight
-              </h3>
-              <p className="text-sm text-indigo-800 dark:text-indigo-300 leading-relaxed whitespace-pre-line">{aiInsight}</p>
-            </div>
-          )}
+
         </div>
       </div>
     </div>

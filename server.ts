@@ -15,6 +15,7 @@ import {
   emergencyContactWelcomeEmail,
   emergencyAlertEmail,
   emergencySmsMessage,
+  emergencyVoiceCallMessage,
 } from "./email-templates";
 
 dotenv.config(); //
@@ -238,7 +239,7 @@ const sendEmail = async (email: {
     },
   });
 
-  // Build mail options — add List-Unsubscribe and X-Priority to improve deliverability
+  // Build mail options — avoid aggressive headers that trigger spam filters
   const mailOptions: nodemailer.SendMailOptions = {
     from: `"${fromName}" <${senderAddress}>`,
     replyTo: senderAddress,
@@ -246,10 +247,6 @@ const sendEmail = async (email: {
     subject: email.subject,
     text: email.text,
     html: email.html,
-    headers: {
-      "X-Priority": "1",
-      "X-Mailer": "HealthSync",
-    },
   };
 
   console.log(`Sending email → To: ${email.to} | Subject: ${email.subject}`);
@@ -310,6 +307,11 @@ const sendEmergencySMS = async (to: string | string[], message: string) => {
 };
 
 // Voice Call Helper
+// Sanitize text for TwiML to prevent XML injection from member names
+const sanitizeForTwiml = (text: string): string => {
+  return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+};
+
 const sendEmergencyVoiceCall = async (to: string, message: string) => {
   const accountSid = process.env.TWILIO_ACCOUNT_SID;
   const authToken = process.env.TWILIO_AUTH_TOKEN;
@@ -326,8 +328,9 @@ const sendEmergencyVoiceCall = async (to: string, message: string) => {
 
   try {
     const client = twilio(accountSid, authToken);
+    const safeMessage = sanitizeForTwiml(message);
     const call = await client.calls.create({
-      twiml: `<Response><Say>${message}</Say></Response>`, // Use TwiML to say the message
+      twiml: `<Response><Pause length="1"/><Say voice="alice" language="en-IN">${safeMessage}</Say><Pause length="1"/><Say voice="alice" language="en-IN">I repeat. ${safeMessage}</Say></Response>`,
       to: to,
       from: from,
     });
@@ -705,6 +708,7 @@ app.post("/api/emergency/alert", async (req, res) => {
           html: alertEmail.html,
         });
         emailSentSuccessfully = true;
+        console.log(`✅ Emergency alert email SENT to ${member.emergencyContact.email} for member ${member.name}`);
       } catch (error) {
         if (isEmailProviderError(error)) {
           emailAuthBlocked = true;
@@ -749,12 +753,22 @@ app.post("/api/emergency/alert", async (req, res) => {
       }
     }
 
-    // 3. Make Voice Call via Twilio
-    const voiceCallMessage = `Urgent health alert for ${member.name}. Heart rate is ${hr} beats per minute, and oxygen saturation is ${spo2} percent. Please check on them immediately.`;
+    // 3. Make Voice Call via Twilio — personalized message to emergency contact
+    const voiceCallMessage = emergencyVoiceCallMessage(
+      {
+        name: member.name,
+        age: member.age,
+        gender: member.gender,
+        bloodGroup: member.bloodGroup,
+        medicalHistory: member.medicalHistory,
+        emergencyContact: member.emergencyContact,
+      },
+      { hr, spo2 }
+    );
     if (member.emergencyContact?.phone) {
       try {
         await sendEmergencyVoiceCall(member.emergencyContact.phone, voiceCallMessage);
-        console.log(`Emergency voice call initiated for ${member.name}`);
+        console.log(`Emergency voice call initiated for ${member.name} → ${member.emergencyContact.phone}`);
         voiceCallSentSuccessfully = true;
       } catch (error) {
         if (error instanceof Error) {
