@@ -869,7 +869,11 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
+    // Serve index.html for all non-API routes (SPA client-side routing)
     app.get("*", (req, res) => {
+      if (req.path.startsWith("/api/")) {
+        return res.status(404).json({ error: "Not found" });
+      }
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
